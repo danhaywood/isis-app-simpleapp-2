@@ -3,6 +3,7 @@ package domainapp.modules.simple.dom.so;
 import java.util.Comparator;
 
 import javax.inject.Inject;
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
@@ -12,6 +13,8 @@ import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.CommandReification;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
+import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
@@ -56,8 +59,14 @@ public class Customer implements Comparable<Customer> {
     }
 
     public String title() {
-        return "Customer: " + getLastName();
+        return getLastName() +
+                (getFirstName() != null ? ", " + getFirstName(): "");
     }
+
+    @Column(allowsNull = "true")
+    @Getter @Setter @ToString.Include
+    @Property(editing = Editing.ENABLED)
+    private String firstName;
 
     @Name
     @Getter @Setter @ToString.Include
