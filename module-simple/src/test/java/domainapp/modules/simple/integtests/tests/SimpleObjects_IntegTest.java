@@ -14,8 +14,8 @@ import org.apache.isis.testing.integtestsupport.applib.ThrowableMatchers;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import domainapp.modules.simple.dom.so.SimpleObject;
-import domainapp.modules.simple.dom.so.SimpleObjects;
+import domainapp.modules.simple.dom.so.Customer;
+import domainapp.modules.simple.dom.so.Customers;
 import domainapp.modules.simple.fixture.SimpleObject_persona;
 import domainapp.modules.simple.integtests.SimpleModuleIntegTestAbstract;
 
@@ -23,7 +23,7 @@ import domainapp.modules.simple.integtests.SimpleModuleIntegTestAbstract;
 public class SimpleObjects_IntegTest extends SimpleModuleIntegTestAbstract {
 
     @Inject
-    SimpleObjects menu;
+    Customers menu;
 
     public static class listAll extends SimpleObjects_IntegTest {
 
@@ -35,7 +35,7 @@ public class SimpleObjects_IntegTest extends SimpleModuleIntegTestAbstract {
             transactionService.flushTransaction();
 
             // when
-            final List<SimpleObject> all = wrap(menu).listAll();
+            final List<Customer> all = wrap(menu).listAll();
 
             // then
             assertThat(all).hasSize(SimpleObject_persona.values().length);
@@ -45,7 +45,7 @@ public class SimpleObjects_IntegTest extends SimpleModuleIntegTestAbstract {
         public void whenNone() {
 
             // when
-            final List<SimpleObject> all = wrap(menu).listAll();
+            final List<Customer> all = wrap(menu).listAll();
 
             // then
             assertThat(all).hasSize(0);
@@ -60,7 +60,7 @@ public class SimpleObjects_IntegTest extends SimpleModuleIntegTestAbstract {
             wrap(menu).create("Faz");
 
             // then
-            final List<SimpleObject> all = wrap(menu).listAll();
+            final List<Customer> all = wrap(menu).listAll();
             assertThat(all).hasSize(1);
         }
 
@@ -81,7 +81,7 @@ public class SimpleObjects_IntegTest extends SimpleModuleIntegTestAbstract {
             });
 
             // also expect
-            MatcherAssert.assertThat(cause, 
+            MatcherAssert.assertThat(cause,
                     ThrowableMatchers.causedBy(JDODataStoreException.class));
 
         }

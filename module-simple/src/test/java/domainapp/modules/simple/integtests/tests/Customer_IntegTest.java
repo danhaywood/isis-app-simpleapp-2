@@ -20,30 +20,30 @@ import org.apache.isis.persistence.jdo.datanucleus5.jdosupport.mixins.Persistabl
 
 import lombok.Getter;
 
-import domainapp.modules.simple.dom.so.SimpleObject;
+import domainapp.modules.simple.dom.so.Customer;
 import domainapp.modules.simple.fixture.SimpleObject_persona;
 import domainapp.modules.simple.integtests.SimpleModuleIntegTestAbstract;
 
 @Transactional
-public class SimpleObject_IntegTest extends SimpleModuleIntegTestAbstract {
+public class Customer_IntegTest extends SimpleModuleIntegTestAbstract {
 
-    SimpleObject simpleObject;
+    Customer customer;
 
     @BeforeEach
     public void setUp() {
         // given
-        simpleObject = fixtureScripts.runPersona(SimpleObject_persona.FOO);
+        customer = fixtureScripts.runPersona(SimpleObject_persona.FOO);
     }
 
-    public static class name extends SimpleObject_IntegTest {
+    public static class name extends Customer_IntegTest {
 
         @Test
         public void accessible() {
             // when
-            final String name = wrap(simpleObject).getName();
+            final String name = wrap(customer).getName();
 
             // then
-            assertThat(name).isEqualTo(simpleObject.getName());
+            assertThat(name).isEqualTo(customer.getName());
         }
 
         @Test
@@ -53,22 +53,22 @@ public class SimpleObject_IntegTest extends SimpleModuleIntegTestAbstract {
             assertThrows(DisabledException.class, ()->{
 
                 // when
-                wrap(simpleObject).setName("new name");
+                wrap(customer).setName("new name");
             });
         }
 
     }
 
-    public static class updateName extends SimpleObject_IntegTest {
+    public static class updateName extends Customer_IntegTest {
 
         @DomainService
         public static class UpdateNameListener {
 
             @Getter
-            List<SimpleObject.UpdateNameActionDomainEvent> events = new ArrayList<>();
+            List<Customer.UpdateNameActionDomainEvent> events = new ArrayList<>();
 
-            @EventListener(SimpleObject.UpdateNameActionDomainEvent.class)
-            public void on(SimpleObject.UpdateNameActionDomainEvent ev) {
+            @EventListener(Customer.UpdateNameActionDomainEvent.class)
+            public void on(Customer.UpdateNameActionDomainEvent ev) {
                 events.add(ev);
             }
         }
@@ -84,11 +84,11 @@ public class SimpleObject_IntegTest extends SimpleModuleIntegTestAbstract {
             updateNameListener.getEvents().clear();
 
             // when
-            wrap(simpleObject).updateName("new name");
+            wrap(customer).updateName("new name");
             transactionService.flushTransaction();
 
             // then
-            assertThat(wrap(simpleObject).getName()).isEqualTo("new name");
+            assertThat(wrap(customer).getName()).isEqualTo("new name");
             assertThat(updateNameListener.getEvents()).hasSize(5);
         }
 
@@ -99,20 +99,20 @@ public class SimpleObject_IntegTest extends SimpleModuleIntegTestAbstract {
             InvalidException cause = assertThrows(InvalidException.class, ()->{
 
                 // when
-                wrap(simpleObject).updateName("new name!");
+                wrap(customer).updateName("new name&");
             });
 
             // then
-            assertThat(cause.getMessage()).contains("Character '!' is not allowed");
+            assertThat(cause.getMessage()).contains("Character '&' is not allowed");
         }
     }
 
-    public static class dataNucleusId extends SimpleObject_IntegTest {
+    public static class dataNucleusId extends Customer_IntegTest {
 
         @Test
         public void should_be_populated() {
             // when
-            final Long id = mixin(Persistable_datanucleusIdLong.class, simpleObject).prop();
+            final Long id = mixin(Persistable_datanucleusIdLong.class, customer).prop();
 
             // then
             assertThat(id).isGreaterThanOrEqualTo(0);

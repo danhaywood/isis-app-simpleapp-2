@@ -10,8 +10,8 @@ import org.apache.isis.applib.annotation.HomePage;
 import org.apache.isis.applib.annotation.Nature;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 
-import domainapp.modules.simple.dom.so.SimpleObject;
-import domainapp.modules.simple.dom.so.SimpleObjects;
+import domainapp.modules.simple.dom.so.Customer;
+import domainapp.modules.simple.dom.so.Customers;
 
 @DomainObject(
         nature = Nature.VIEW_MODEL,
@@ -25,9 +25,10 @@ public class HomePageViewModel {
         return TranslatableString.tr("{num} objects", "num", getObjects().size());
     }
 
-    public List<SimpleObject> getObjects() {
-        return simpleObjects.listAll();
+    public List<Customer> getObjects() {
+        return customers.listAll();
     }
 
-    @Inject SimpleObjects simpleObjects;
+    @Inject
+    Customers customers;
 }

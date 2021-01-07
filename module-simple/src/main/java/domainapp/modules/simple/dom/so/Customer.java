@@ -30,33 +30,33 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.val;
 
-@javax.jdo.annotations.PersistenceCapable(identityType=IdentityType.DATASTORE, schema = "simple")
+@javax.jdo.annotations.PersistenceCapable(identityType=IdentityType.DATASTORE, schema = "customer")
 @javax.jdo.annotations.DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY, column="id")
 @javax.jdo.annotations.Version(strategy= VersionStrategy.DATE_TIME, column="version")
-@javax.jdo.annotations.Unique(name="SimpleObject_name_UNQ", members = {"name"})
+@javax.jdo.annotations.Unique(name="Customer_name_UNQ", members = {"name"})
 @DomainObject()
 @DomainObjectLayout()
 @XmlJavaTypeAdapter(PersistentEntityAdapter.class)
 @ToString(onlyExplicitlyIncluded = true)
-public class SimpleObject implements Comparable<SimpleObject> {
+public class Customer implements Comparable<Customer> {
 
-    public static SimpleObject withName(String name) {
-        val simpleObject = new SimpleObject();
+    public static Customer withName(String name) {
+        val simpleObject = new Customer();
         simpleObject.setName(name);
         return simpleObject;
     }
 
-    public static class ActionDomainEvent extends SimpleModule.ActionDomainEvent<SimpleObject> {}
+    public static class ActionDomainEvent extends SimpleModule.ActionDomainEvent<Customer> {}
 
     @Inject RepositoryService repositoryService;
     @Inject TitleService titleService;
     @Inject MessageService messageService;
 
-    private SimpleObject() {
+    private Customer() {
     }
 
     public String title() {
-        return "Object: " + getName();
+        return "Customer: " + getName();
     }
 
     @Name
@@ -68,11 +68,11 @@ public class SimpleObject implements Comparable<SimpleObject> {
     private String notes;
 
 
-    public static class UpdateNameActionDomainEvent extends SimpleObject.ActionDomainEvent {}
+    public static class UpdateNameActionDomainEvent extends Customer.ActionDomainEvent {}
     @Action(semantics = IDEMPOTENT,
             command = CommandReification.ENABLED, publishing = Publishing.ENABLED,
-            associateWith = "name", domainEvent = UpdateNameActionDomainEvent.class)
-    public SimpleObject updateName(
+            associateWith = "lastName", domainEvent = UpdateNameActionDomainEvent.class)
+    public Customer updateName(
             @Name final String name) {
         setName(name);
         return this;
@@ -82,7 +82,7 @@ public class SimpleObject implements Comparable<SimpleObject> {
         return getName();
     }
 
-    public static class DeleteActionDomainEvent extends SimpleObject.ActionDomainEvent {}
+    public static class DeleteActionDomainEvent extends Customer.ActionDomainEvent {}
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE, domainEvent = DeleteActionDomainEvent.class)
     public void delete() {
         final String title = titleService.titleOf(this);
@@ -90,11 +90,11 @@ public class SimpleObject implements Comparable<SimpleObject> {
         repositoryService.removeAndFlush(this);
     }
 
-    private final static Comparator<SimpleObject> comparator =
-            Comparator.comparing(SimpleObject::getName);
+    private final static Comparator<Customer> comparator =
+            Comparator.comparing(Customer::getName);
 
     @Override
-    public int compareTo(final SimpleObject other) {
+    public int compareTo(final Customer other) {
         return comparator.compare(this, other);
     }
 

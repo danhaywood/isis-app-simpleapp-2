@@ -14,6 +14,8 @@ import org.apache.isis.testing.fixtures.applib.IsisModuleTestingFixturesApplib;
 import org.apache.isis.testing.integtestsupport.applib.IsisIntegrationTestAbstract;
 
 import domainapp.webapp.application.ApplicationModule;
+import domainapp.webapp.bdd.BddModule;
+import domainapp.webapp.bdd.stepdefs.domain.CustomersContext;
 
 @SpringBootTest(
     // we use a slightly different AppManifest compared to the production webapp (defined below)
@@ -40,6 +42,8 @@ public abstract class ApplicationIntegTestAbstract extends IsisIntegrationTestAb
         IsisModuleJdoDataNucleus5.class,
         IsisModuleSecurityBypass.class,
         IsisModuleTestingFixturesApplib.class,
+
+        BddModule.class,
 
         ApplicationModule.class,
     })

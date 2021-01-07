@@ -12,7 +12,7 @@ import org.apache.isis.testing.fixtures.applib.modules.ModuleWithFixtures;
 
 import lombok.Data;
 
-import domainapp.modules.simple.dom.so.SimpleObject;
+import domainapp.modules.simple.dom.so.Customer;
 
 @org.springframework.context.annotation.Configuration
 @Import({})
@@ -27,17 +27,17 @@ public class SimpleModule implements ModuleWithFixtures {
         return new TeardownFixtureAbstract() {
             @Override
             protected void execute(ExecutionContext executionContext) {
-                deleteFrom(SimpleObject.class);
+                deleteFrom(Customer.class);
             }
         };
     }
 
     public static class PropertyDomainEvent<S,T>
             extends org.apache.isis.applib.events.domain.PropertyDomainEvent<S,T> {}
-    
+
     public static class CollectionDomainEvent<S,T>
             extends org.apache.isis.applib.events.domain.CollectionDomainEvent<S,T> {}
-    
+
     public static class ActionDomainEvent<S>
             extends org.apache.isis.applib.events.domain.ActionDomainEvent<S> {}
 
@@ -54,7 +54,7 @@ public class SimpleModule implements ModuleWithFixtures {
                 private final Validation validation = new Validation();
                 @Data
                 public static class Validation {
-                    private char[] prohibitedCharacters = "!&%$".toCharArray();
+                    private char[] prohibitedCharacters = "&%$".toCharArray();
                     private String message = "Character '{character}' is not allowed";
                 }
             }

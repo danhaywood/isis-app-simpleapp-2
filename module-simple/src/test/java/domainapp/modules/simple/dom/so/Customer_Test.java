@@ -16,17 +16,17 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 
 @ExtendWith(MockitoExtension.class)
-class SimpleObject_Test {
+class Customer_Test {
 
     @Mock TitleService mockTitleService;
     @Mock MessageService mockMessageService;
     @Mock RepositoryService mockRepositoryService;
 
-    SimpleObject object;
+    Customer object;
 
     @BeforeEach
     public void setUp() throws Exception {
-        object = SimpleObject.withName("Foo");
+        object = Customer.withName("Foo");
         object.titleService = mockTitleService;
         object.messageService = mockMessageService;
         object.repositoryService = mockRepositoryService;

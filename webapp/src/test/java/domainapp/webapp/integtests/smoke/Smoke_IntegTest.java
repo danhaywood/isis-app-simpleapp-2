@@ -14,27 +14,28 @@ import org.apache.isis.applib.services.xactn.TransactionService;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domainapp.webapp.integtests.ApplicationIntegTestAbstract;
-import domainapp.modules.simple.dom.so.SimpleObject;
-import domainapp.modules.simple.dom.so.SimpleObjects;
+import domainapp.modules.simple.dom.so.Customer;
+import domainapp.modules.simple.dom.so.Customers;
 
 @Transactional
 class Smoke_IntegTest extends ApplicationIntegTestAbstract {
 
-    @Inject SimpleObjects menu;
+    @Inject
+    Customers menu;
     @Inject TransactionService transactionService;
 
     @Test
     void happy_case() {
 
         // when
-        List<SimpleObject> all = wrap(menu).listAll();
+        List<Customer> all = wrap(menu).listAll();
 
         // then
         assertThat(all).isEmpty();
 
 
         // when
-        final SimpleObject fred = wrap(menu).create("Fred");
+        final Customer fred = wrap(menu).create("Fred");
         transactionService.flushTransaction();
 
         // then
@@ -44,7 +45,7 @@ class Smoke_IntegTest extends ApplicationIntegTestAbstract {
 
 
         // when
-        final SimpleObject bill = wrap(menu).create("Bill");
+        final Customer bill = wrap(menu).create("Bill");
         transactionService.flushTransaction();
 
         // then

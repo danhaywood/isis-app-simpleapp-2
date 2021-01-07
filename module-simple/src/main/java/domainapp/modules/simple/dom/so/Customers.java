@@ -14,32 +14,32 @@ import domainapp.modules.simple.types.Name;
 
 @DomainService(
         nature = NatureOfService.VIEW,
-        objectType = "simple.SimpleObjects"
+        objectType = "customer.Customers"
         )
 @lombok.RequiredArgsConstructor(onConstructor_ = {@Inject} )
-public class SimpleObjects {
+public class Customers {
 
     private final RepositoryService repositoryService;
     private final IsisJdoSupport_v3_2 isisJdoSupport;
 
-    public static class ActionDomainEvent extends SimpleModule.ActionDomainEvent<SimpleObjects> {}
+    public static class ActionDomainEvent extends SimpleModule.ActionDomainEvent<Customers> {}
 
     public static class CreateActionDomainEvent extends ActionDomainEvent {}
     @Action(semantics = SemanticsOf.NON_IDEMPOTENT, domainEvent = CreateActionDomainEvent.class)
     @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR)
-    public SimpleObject create(
+    public Customer create(
             @Name final String name) {
-        return repositoryService.persist(SimpleObject.withName(name));
+        return repositoryService.persist(Customer.withName(name));
     }
 
     public static class FindByNameActionDomainEvent extends ActionDomainEvent {}
     @Action(semantics = SemanticsOf.SAFE, domainEvent = FindByNameActionDomainEvent.class)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, promptStyle = PromptStyle.DIALOG_SIDEBAR)
-    public List<SimpleObject> findByName(
+    public List<Customer> findByName(
             @Name final String name
             ) {
-        JDOQLTypedQuery<SimpleObject> q = isisJdoSupport.newTypesafeQuery(SimpleObject.class);
-        final QSimpleObject cand = QSimpleObject.candidate();
+        JDOQLTypedQuery<Customer> q = isisJdoSupport.newTypesafeQuery(Customer.class);
+        final QCustomer cand = QCustomer.candidate();
         q = q.filter(
                 cand.name.indexOf(q.stringParameter("name")).ne(-1)
                 );
@@ -48,9 +48,9 @@ public class SimpleObjects {
     }
 
     @Programmatic
-    public SimpleObject findByNameExact(final String name) {
-        JDOQLTypedQuery<SimpleObject> q = isisJdoSupport.newTypesafeQuery(SimpleObject.class);
-        final QSimpleObject cand = QSimpleObject.candidate();
+    public Customer findByNameExact(final String name) {
+        JDOQLTypedQuery<Customer> q = isisJdoSupport.newTypesafeQuery(Customer.class);
+        final QCustomer cand = QCustomer.candidate();
         q = q.filter(
                 cand.name.eq(q.stringParameter("name"))
                 );
@@ -61,14 +61,14 @@ public class SimpleObjects {
     public static class ListAllActionDomainEvent extends ActionDomainEvent {}
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    public List<SimpleObject> listAll() {
-        return repositoryService.allInstances(SimpleObject.class);
+    public List<Customer> listAll() {
+        return repositoryService.allInstances(Customer.class);
     }
 
     @Programmatic
     public void ping() {
-        JDOQLTypedQuery<SimpleObject> q = isisJdoSupport.newTypesafeQuery(SimpleObject.class);
-        final QSimpleObject candidate = QSimpleObject.candidate();
+        JDOQLTypedQuery<Customer> q = isisJdoSupport.newTypesafeQuery(Customer.class);
+        final QCustomer candidate = QCustomer.candidate();
         q.range(0,2);
         q.orderBy(candidate.name.asc());
         q.executeList();

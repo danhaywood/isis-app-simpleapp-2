@@ -22,16 +22,16 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class SimpleObjects_Test {
+class Customers_Test {
 
     @Mock RepositoryService mockRepositoryService;
     @Mock IsisJdoSupport_v3_2 mockIsisJdoSupport_v3_2;
 
-    SimpleObjects objects;
+    Customers objects;
 
     @BeforeEach
     public void setUp() {
-        objects = new SimpleObjects(mockRepositoryService, mockIsisJdoSupport_v3_2);
+        objects = new Customers(mockRepositoryService, mockIsisJdoSupport_v3_2);
     }
 
     @Nested
@@ -45,11 +45,11 @@ class SimpleObjects_Test {
 
             // expect
             when(mockRepositoryService.persist(
-                    argThat((ArgumentMatcher<SimpleObject>) simpleObject -> Objects.equals(simpleObject.getName(), someName)))
-            ).then((Answer<SimpleObject>) invocation -> invocation.getArgument(0));
+                    argThat((ArgumentMatcher<Customer>) simpleObject -> Objects.equals(simpleObject.getName(), someName)))
+            ).then((Answer<Customer>) invocation -> invocation.getArgument(0));
 
             // when
-            final SimpleObject obj = objects.create(someName);
+            final Customer obj = objects.create(someName);
 
             // then
             assertThat(obj).isNotNull();
@@ -64,14 +64,14 @@ class SimpleObjects_Test {
         void happyCase() {
 
             // given
-            final List<SimpleObject> all = new ArrayList<>();
+            final List<Customer> all = new ArrayList<>();
 
             // expecting
-            when(mockRepositoryService.allInstances(SimpleObject.class))
+            when(mockRepositoryService.allInstances(Customer.class))
                 .thenReturn(all);
 
             // when
-            final List<SimpleObject> list = objects.listAll();
+            final List<Customer> list = objects.listAll();
 
             // then
             assertThat(list).isEqualTo(all);
