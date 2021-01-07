@@ -84,7 +84,7 @@ public class Customer_IntegTest extends SimpleModuleIntegTestAbstract {
             updateNameListener.getEvents().clear();
 
             // when
-            wrap(customer).updateName("new name");
+            wrap(customer).updateName("new name", null);
             transactionService.flushTransaction();
 
             // then
@@ -99,7 +99,7 @@ public class Customer_IntegTest extends SimpleModuleIntegTestAbstract {
             InvalidException cause = assertThrows(InvalidException.class, ()->{
 
                 // when
-                wrap(customer).updateName("new name&");
+                wrap(customer).updateName("new name&", null);
             });
 
             // then

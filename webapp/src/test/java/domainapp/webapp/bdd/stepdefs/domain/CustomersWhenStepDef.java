@@ -15,14 +15,14 @@ public class CustomersWhenStepDef extends CucumberTestAbstract {
 
     @When("I modify the name to {string}")
     public void modify_the_name_to(String newName) {
-        wrap(context.getCustomer()).updateName(newName);
+        wrap(context.getCustomer()).updateName(newName, null);
     }
 
     @When("I attempt to modify the name to {string}")
     public void i_attempt_to_modify_the_name_to(String newName) {
 
         try {
-            wrap(context.getCustomer()).updateName(newName);
+            wrap(context.getCustomer()).updateName(newName, null);
             fail();
         } catch(InvalidException ex) {
             this.context.setEx(ex);
