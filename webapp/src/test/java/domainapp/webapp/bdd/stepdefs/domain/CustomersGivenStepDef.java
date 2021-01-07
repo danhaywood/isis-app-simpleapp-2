@@ -25,7 +25,7 @@ public class CustomersGivenStepDef extends CucumberTestAbstract {
         final List<Customer> list = wrap(customers).listAll();
         val customer = list.get(0);
         context.setCustomer(customer);
-        context.setOriginalName(customer.getName());
+        context.setOriginalName(customer.getLastName());
     }
 
 }

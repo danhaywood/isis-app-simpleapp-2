@@ -45,7 +45,7 @@ class Customers_Test {
 
             // expect
             when(mockRepositoryService.persist(
-                    argThat((ArgumentMatcher<Customer>) simpleObject -> Objects.equals(simpleObject.getName(), someName)))
+                    argThat((ArgumentMatcher<Customer>) simpleObject -> Objects.equals(simpleObject.getLastName(), someName)))
             ).then((Answer<Customer>) invocation -> invocation.getArgument(0));
 
             // when
@@ -53,7 +53,7 @@ class Customers_Test {
 
             // then
             assertThat(obj).isNotNull();
-            assertThat(obj.getName()).isEqualTo(someName);
+            assertThat(obj.getLastName()).isEqualTo(someName);
         }
     }
 

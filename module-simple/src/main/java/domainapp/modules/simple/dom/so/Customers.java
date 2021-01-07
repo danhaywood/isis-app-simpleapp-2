@@ -29,7 +29,7 @@ public class Customers {
     @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR)
     public Customer create(
             @Name final String name) {
-        return repositoryService.persist(Customer.withName(name));
+        return repositoryService.persist(Customer.withLastName(name));
     }
 
     public static class FindByNameActionDomainEvent extends ActionDomainEvent {}
@@ -41,7 +41,7 @@ public class Customers {
         JDOQLTypedQuery<Customer> q = isisJdoSupport.newTypesafeQuery(Customer.class);
         final QCustomer cand = QCustomer.candidate();
         q = q.filter(
-                cand.name.indexOf(q.stringParameter("name")).ne(-1)
+                cand.lastName.indexOf(q.stringParameter("name")).ne(-1)
                 );
         return q.setParameter("name", name)
                 .executeList();
@@ -52,7 +52,7 @@ public class Customers {
         JDOQLTypedQuery<Customer> q = isisJdoSupport.newTypesafeQuery(Customer.class);
         final QCustomer cand = QCustomer.candidate();
         q = q.filter(
-                cand.name.eq(q.stringParameter("name"))
+                cand.lastName.eq(q.stringParameter("name"))
                 );
         return q.setParameter("name", name)
                 .executeUnique();
@@ -70,7 +70,7 @@ public class Customers {
         JDOQLTypedQuery<Customer> q = isisJdoSupport.newTypesafeQuery(Customer.class);
         final QCustomer candidate = QCustomer.candidate();
         q.range(0,2);
-        q.orderBy(candidate.name.asc());
+        q.orderBy(candidate.lastName.asc());
         q.executeList();
     }
 

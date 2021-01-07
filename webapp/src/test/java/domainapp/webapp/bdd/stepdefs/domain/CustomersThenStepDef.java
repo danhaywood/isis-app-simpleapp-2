@@ -16,12 +16,12 @@ public class CustomersThenStepDef extends CucumberTestAbstract {
 
     @Then("the name is now {string}")
     public void the_name_is_now(String name) {
-        Assertions.assertThat(context.getCustomer().getName()).isEqualTo(name);
+        Assertions.assertThat(context.getCustomer().getLastName()).isEqualTo(name);
     }
 
     @Then("the name is unchanged")
     public void the_name_is_unchanged() {
-        Assertions.assertThat(context.getCustomer().getName()).isEqualTo(context.getOriginalName());
+        Assertions.assertThat(context.getCustomer().getLastName()).isEqualTo(context.getOriginalName());
     }
 
     @And("a warning is raised")

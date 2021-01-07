@@ -33,16 +33,16 @@ import lombok.val;
 @javax.jdo.annotations.PersistenceCapable(identityType=IdentityType.DATASTORE, schema = "customer")
 @javax.jdo.annotations.DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY, column="id")
 @javax.jdo.annotations.Version(strategy= VersionStrategy.DATE_TIME, column="version")
-@javax.jdo.annotations.Unique(name="Customer_name_UNQ", members = {"name"})
+@javax.jdo.annotations.Unique(name="Customer_lastName_UNQ", members = {"lastName"})
 @DomainObject()
 @DomainObjectLayout()
 @XmlJavaTypeAdapter(PersistentEntityAdapter.class)
 @ToString(onlyExplicitlyIncluded = true)
 public class Customer implements Comparable<Customer> {
 
-    public static Customer withName(String name) {
+    public static Customer withLastName(String name) {
         val simpleObject = new Customer();
-        simpleObject.setName(name);
+        simpleObject.setLastName(name);
         return simpleObject;
     }
 
@@ -56,12 +56,12 @@ public class Customer implements Comparable<Customer> {
     }
 
     public String title() {
-        return "Customer: " + getName();
+        return "Customer: " + getLastName();
     }
 
     @Name
     @Getter @Setter @ToString.Include
-    private String name;
+    private String lastName;
 
     @Notes
     @Getter @Setter
@@ -74,12 +74,12 @@ public class Customer implements Comparable<Customer> {
             associateWith = "lastName", domainEvent = UpdateNameActionDomainEvent.class)
     public Customer updateName(
             @Name final String name) {
-        setName(name);
+        setLastName(name);
         return this;
     }
 
     public String default0UpdateName() {
-        return getName();
+        return getLastName();
     }
 
     public static class DeleteActionDomainEvent extends Customer.ActionDomainEvent {}
@@ -91,7 +91,7 @@ public class Customer implements Comparable<Customer> {
     }
 
     private final static Comparator<Customer> comparator =
-            Comparator.comparing(Customer::getName);
+            Comparator.comparing(Customer::getLastName);
 
     @Override
     public int compareTo(final Customer other) {

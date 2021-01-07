@@ -40,10 +40,10 @@ public class Customer_IntegTest extends SimpleModuleIntegTestAbstract {
         @Test
         public void accessible() {
             // when
-            final String name = wrap(customer).getName();
+            final String name = wrap(customer).getLastName();
 
             // then
-            assertThat(name).isEqualTo(customer.getName());
+            assertThat(name).isEqualTo(customer.getLastName());
         }
 
         @Test
@@ -53,7 +53,7 @@ public class Customer_IntegTest extends SimpleModuleIntegTestAbstract {
             assertThrows(DisabledException.class, ()->{
 
                 // when
-                wrap(customer).setName("new name");
+                wrap(customer).setLastName("new name");
             });
         }
 
@@ -88,7 +88,7 @@ public class Customer_IntegTest extends SimpleModuleIntegTestAbstract {
             transactionService.flushTransaction();
 
             // then
-            assertThat(wrap(customer).getName()).isEqualTo("new name");
+            assertThat(wrap(customer).getLastName()).isEqualTo("new name");
             assertThat(updateNameListener.getEvents()).hasSize(5);
         }
 

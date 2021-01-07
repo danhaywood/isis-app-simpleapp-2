@@ -26,7 +26,7 @@ class Customer_Test {
 
     @BeforeEach
     public void setUp() throws Exception {
-        object = Customer.withName("Foo");
+        object = Customer.withLastName("Foo");
         object.titleService = mockTitleService;
         object.messageService = mockMessageService;
         object.repositoryService = mockRepositoryService;
@@ -38,13 +38,13 @@ class Customer_Test {
         @Test
         void happy_case() {
             // given
-            assertThat(object.getName()).isEqualTo("Foo");
+            assertThat(object.getLastName()).isEqualTo("Foo");
 
             // when
             object.updateName("Bar");
 
             // then
-            assertThat(object.getName()).isEqualTo("Bar");
+            assertThat(object.getLastName()).isEqualTo("Bar");
         }
 
     }
